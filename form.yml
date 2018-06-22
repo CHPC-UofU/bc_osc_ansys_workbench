@@ -1,0 +1,45 @@
+---
+cluster: "scrubpeak"
+attributes:
+  bc_num_slots:
+    label: "Number of tasks"
+    help: |
+      Tasks will be distributed to multiple nodes if task count exceeds node core count. Currently only CFX has been tested to support multiple nodes.
+  bc_vnc_resolution:
+    required: true
+  version:
+    widget: select
+    label: "ANSYS Workbench version"
+    help: "This defines the version of ANSYS you want to load."
+    options:
+      - [ "18.2",   "ansys/18.2"   ]
+  bc_account:
+    label: "Account"
+    help: "If left blank default account will be used"
+  bc_queue:
+    label: "Partition"
+    value: "scrubpeak"
+    help: "If left blank default partition will be used"
+  node_type:
+    widget: select
+    label: "Node type"
+    help: |
+      - **any** - Chooses anyone of the available Lonepeak nodes.
+        This reduces the wait time as you have no requirements.
+      - **8 core node** - Chooses 8 core Lonepeak nodes.
+      - **12 core node** - Chooses 12 core Lonepeak nodes.
+      - **20 core node** - Chooses 20 core Lonepeak nodes.
+    options:
+      - ["any node", "any"]
+      - ["8 core node", "c8"]
+      - ["12 core node", "c12"]
+      - ["20 core node", "c20"]
+form:
+  - version
+  - bc_num_slots
+  - bc_num_hours
+  - bc_account
+  - bc_queue
+  - node_type
+  - bc_vnc_resolution
+  - bc_email_on_started
