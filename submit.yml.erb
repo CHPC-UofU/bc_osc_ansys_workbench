@@ -1,25 +1,8 @@
-<%-
-  num_nodes = bc_num_slots.blank? ? 1 : bc_num_slots.to_i
-  num_cpus_for_free = 4
-
-  if node_type == ':hugemem'
-    num_cpus_per_node_requested = 48
-  else
-    num_cpus_per_node_requested = num_cores.blank? ? 28 : num_cores.to_i
-    num_cpus_per_node_requested = [num_cpus_per_node_requested, 28].min
-  end
-
-  num_cpus_available = (num_nodes * num_cpus_per_node_requested) - num_cpus_for_free
-  ansys_par_request = (reserve_parallel_licenses.to_i == 1) ? "\%ansyspar+#{num_cpus_available}" : ""
-  software_request = "ansys+1" + ansys_par_request
-
-  ppn = (num_cpus_per_node_requested > 0) ? ":ppn=#{num_cpus_per_node_requested}" : ""
--%>
 ---
 batch_connect:
-  template: "vnc"
+  template: vnc
 script:
   native:
-    resources:
-      nodes: "<%= num_nodes %><%= ppn %><%= node_type %>"
-      software: "<%= software_request %>"
+    - "-n"
+    - "<%= bc_num_slots %>"
+

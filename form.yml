@@ -1,79 +1,42 @@
 ---
-cluster: "owens"
-form:
-  - version
-  - bc_account
-  - bc_num_hours
-  - bc_num_slots
-  - num_cores
-  - reserve_parallel_licenses
-  - node_type
-  - bc_vnc_resolution
-  - bc_email_on_started
-  - user_license_provider
-  - extern_license_server
-  - extern_license_file
+title: "ANSYS Workbench on Notchpeak shared"
+cluster: "notchpeak"
+description: |
+  This app will launch an ANSYS GUI on one Notchpeak shared node. You will be
+  able to interact with ANSYS through a VNC session.
 attributes:
-  num_cores:
-    widget: "number_field"
-    label: "Number of cores"
-    help: |
-      Number of cores on node type (4 GB per core unless requesting whole
-      node). Leave blank if requesting full node.
-    min: 0  # This is treated as requesting the max allowable
-    max: 48  # This will be updated by form.js
-    step: 1
-    id: num_cores
   bc_num_slots:
+    label: "Number of tasks"
+    min: 1
+    max: 32
+    step: 1
     help: |
-      Currently only Fluent and CFX have been tested to support multiple nodes.
+      Maximum of 32 tasks is allowed on notchpeak-shared partition
+  bc_num_hours:
+    value: 1
+    min: 1
+    max: 8
+    step: 1
+    help: "Maximum notchpeak-shared walltime is 8 hours"
   bc_vnc_resolution:
     required: true
-  bc_account:
-    label: "Project"
-    help: "You can leave this blank if **not** in multiple projects."
-  reserve_parallel_licenses:
-    widget: check_box
-    checked_value: 1
-    unchecked_value: 0
-    label: "Reserve ANSYS Parallel Licenses"
-    help: |
-      - Ensure that enough parallel licenses are available for the number of nodes selected before starting the session.
-  node_type:
-    widget: select
-    label: "Node type"
-    help: |
-      - **any** - (*28 cores*) Use any available Owens node. This reduces the
-        wait time as there are no node requirements.
-      - **vis** - (*28 cores*) Use an Owens node that has an [NVIDIA Tesla P100
-        GPU](http://www.nvidia.com/object/tesla-p100.html) with an X server
-        running in the background. This utilizes the GPU for hardware
-        accelerated 3D visualization. There are 160 of these nodes on Owens.
-      - **hugemem** - (*48 cores*) Use an Owens node that has 1.5TB of
-        available RAM as well as 48 cores. There are 16 of these nodes on
-        Owens.
-    options:
-      - [ "any",     ""            ]
-      - [ "vis",     ":vis:gpus=1" ]
-      - [ "hugemem", ":hugemem"    ]
   version:
     widget: select
     label: "ANSYS Workbench version"
     help: "This defines the version of ANSYS you want to load."
     options:
-      - [ "19.1",   "ansys/19.1"   ]
-      - [ "18.1",   "ansys/18.1"   ]
-      - [ "17.2",   "ansys/17.2"   ]
-  user_license_provider:
-    widget: select
-    label: "License provider"
-    help: "Some users are required to provide their own license information"
-    options:
-      - ["I can use the OSC license", "osc"]
-      - ["I need to use an external license", "external"]
-  extern_license_server:
-    label: "External License Server"
-    placeholder: port@ip
-  extern_license_file:
-    label: "External License File"
-    placeholder: port@ip
+      - [ "18.2",   "ansys/18.2"   ]
+  bc_account:
+    label: "Account"
+    value: "notchpeak-shared"
+  bc_queue:
+    label: "Partition"
+    value: "notchpeak-shared"
+form:
+  - version
+  - bc_num_slots
+  - bc_num_hours
+  - bc_account
+  - bc_queue
+  - bc_vnc_resolution
+  - bc_email_on_started

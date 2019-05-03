@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
-<%- gpu = context.node_type.include?("vis") -%>
+#env |grep SLURM
 
 # Clean the environment
 module purge
+
+
+# Work around spam message about dconf write permissions
+#export XDG_RUNTIME_DIR="/tmp/${UID}"
+unsetenv XDG_RUNTIME_DIR=
 
 # Set working directory to home directory
 cd "${HOME}"
@@ -28,14 +33,8 @@ cd "${HOME}"
 #
 
 # Load the required environment
+module load intel # for Intel MPI
 module load <%= context.version %>
-
-<% if context.user_license_provider == 'external' %>
-# Attempting to use a 3rd party license server
-export ANS_FLEXLM_DISABLE_DEFLICPATH=1
-export ANSYSLI_SERVERS=<%= context.extern_license_server %>
-export ANSYSLMD_LICENSE_FILE=<%= context.extern_license_file %>
-<% end %>
 
 # Another ANSYS job with the same job name (file) is already running in this
 # directory or the file.lock file has not been deleted from an abnormally
@@ -47,23 +46,28 @@ export ANSYS_LOCK="OFF"
 # CFX Related Options
 #
 
-<%- unless gpu -%>
 # Disable hardware rendering mode
 export CUE_GRAPHICS="mesa"
-<%- end -%>
 
 # Fix bug when running Intel MPI code on OSC
 export I_MPI_PMI_EXTENSIONS=on
 
 # Add custom "OSC MPI" as a start method
+# use generic start method
 export CFX5_START_METHODS_CCL="<%= session.staged_root.join("cfx_assets", "start-methods.ccl") %>"
 
 # Make a hosts file that CFX will use in Parallel Distributed
+export SLURM_NODEFILE="${HOME}/.cfx/nodes.${SLURM_JOBID}"
+srun hostname -s | sort > $SLURM_NODEFILE 
 mkdir -p "${HOME}/.cfx"
-export CFX5_HOSTS_CCL="${HOME}/.cfx/hostinfo.${PBS_JOBID}"
-NODES=$(tr '\n' ',' < "${PBS_NODEFILE}" | sed 's/,$//g')
+export CFX5_HOSTS_CCL="${HOME}/.cfx/hostinfo.${SLURM_JOBID}"
+NODES=$(tr '\n' ',' < "${SLURM_NODEFILE}" | sed -e 's/ /,/g')
+NODES=${NODES%?}
 touch "${CFX5_HOSTS_CCL}"
 cfx5parhosts -add "${NODES}" -user -file "${CFX5_HOSTS_CCL}"
+
+# TEST
+#cp ${CFX5_HOSTS_CCL} ${CFX5_HOSTS_CCL}.org
 
 # Only give OSC MPI option to user through GUI
 HOSTINFO=$(head -n -2 "${CFX5_HOSTS_CCL}")
@@ -76,7 +80,7 @@ ${HOSTINFO}
       END
       PARALLEL ENVIRONMENT:
         Parallel Host List = ${NODES}
-        Start Method = OSC MPI Distributed Parallel
+        Start Method = CHPC Intel MPI Distributed Parallel
       END
     END
   END # EXECUTION CONTROL
@@ -88,16 +92,10 @@ EOL
 #
 
 # Add RSH and SSH wrappers for Fluent and CFX
-export PATH="<%= session.staged_root.join("bin") %>:${PATH}"
+# don't need those ...
+# export PATH="<%= session.staged_root.join("bin") %>:${PATH}"
 
 # Launch ANSYS Workbench
-<%- if gpu -%>
-module load intel/16.0.3 virtualgl
-module list
-set -x
-vglrun runwb2
-<%- else -%>
 module list
 set -x
 runwb2
-<%- end -%>
