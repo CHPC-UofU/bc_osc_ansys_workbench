@@ -1,8 +1,8 @@
 ---
-title: "ANSYS Workbench on Notchpeak shared"
+title: "ANSYS Workbench on Notchpeak"
 cluster: "notchpeak"
 description: |
-  This app will launch an ANSYS GUI on one Notchpeak shared node. You will be
+  This app will launch an ANSYS GUI on one Notchpeak node. You will be
   able to interact with ANSYS through a VNC session.
 attributes:
   bc_num_slots:
@@ -11,13 +11,13 @@ attributes:
     max: 32
     step: 1
     help: |
-      Maximum of 32 tasks is allowed on notchpeak-shared partition
+      Maximum of 32 tasks is allowed on notchpeak-shared-short partition
   bc_num_hours:
     value: 1
     min: 1
     max: 8
     step: 1
-    help: "Maximum notchpeak-shared walltime is 8 hours"
+    help: "Maximum notchpeak-shared-short walltime is 8 hours"
   bc_vnc_resolution:
     required: true
   version:
@@ -28,10 +28,10 @@ attributes:
       - [ "18.2",   "ansys/18.2"   ]
   bc_account:
     label: "Account"
-    value: "notchpeak-shared"
+    value: "notchpeak-shared-short"
   bc_queue:
     label: "Partition"
-    value: "notchpeak-shared"
+    value: "notchpeak-shared-short"
 form:
   - version
   - bc_num_slots
