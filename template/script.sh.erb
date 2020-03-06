@@ -1,11 +1,21 @@
 #!/usr/bin/env bash
 
-#<%- gpu = context.node_type.include?("vis") -%>
-
-env |grep SLURM
+#env |grep SLURM
 
 # Clean the environment
 module purge
+
+# this is needed to make the IBM/Platform MPI happy with SLURM
+unset SLURM_GTIDS
+
+# debug info
+#export ANSYS_FRAMEWORK_DEVELOPMENT=1
+#export WBTracing=true
+
+
+# Work around spam message about dconf write permissions
+#export XDG_RUNTIME_DIR="/tmp/${UID}"
+unsetenv XDG_RUNTIME_DIR=
 
 # Set working directory to home directory
 cd "${HOME}"
@@ -43,10 +53,8 @@ export ANSYS_LOCK="OFF"
 # CFX Related Options
 #
 
-<%- unless gpu -%>
 # Disable hardware rendering mode
 export CUE_GRAPHICS="mesa"
-<%- end -%>
 
 # Fix bug when running Intel MPI code on OSC
 export I_MPI_PMI_EXTENSIONS=on
@@ -66,7 +74,7 @@ touch "${CFX5_HOSTS_CCL}"
 cfx5parhosts -add "${NODES}" -user -file "${CFX5_HOSTS_CCL}"
 
 # TEST
-cp ${CFX5_HOSTS_CCL} ${CFX5_HOSTS_CCL}.org
+#cp ${CFX5_HOSTS_CCL} ${CFX5_HOSTS_CCL}.org
 
 # Only give OSC MPI option to user through GUI
 HOSTINFO=$(head -n -2 "${CFX5_HOSTS_CCL}")
@@ -95,13 +103,6 @@ EOL
 # export PATH="<%= session.staged_root.join("bin") %>:${PATH}"
 
 # Launch ANSYS Workbench
-#<%- if gpu -%>
-#module load intel/16.0.3 virtualgl
-#module list
-#set -x
-#vglrun runwb2
-#<%- else -%>
 module list
 set -x
 runwb2
-#<%- end -%>

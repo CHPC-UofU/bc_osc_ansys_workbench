@@ -5,8 +5,4 @@ script:
   native:
     - "-n"
     - "<%= bc_num_slots %>"
-    <%- if node_type != "any" -%>
-    - "-C"
-    - "<%= node_type %>"
-    <%- end -%>
 

@@ -1,10 +1,23 @@
 ---
-cluster: "scrubpeak"
+title: "ANSYS Workbench on Notchpeak"
+cluster: "notchpeak"
+description: |
+  This app will launch an ANSYS GUI on one Notchpeak node. You will be
+  able to interact with ANSYS through a VNC session.
 attributes:
   bc_num_slots:
     label: "Number of tasks"
+    min: 1
+    max: 32
+    step: 1
     help: |
-      Tasks will be distributed to multiple nodes if task count exceeds node core count. Currently only CFX has been tested to support multiple nodes.
+      Maximum of 32 tasks is allowed on notchpeak-shared-short partition
+  bc_num_hours:
+    value: 1
+    min: 1
+    max: 8
+    step: 1
+    help: "Maximum notchpeak-shared-short walltime is 8 hours"
   bc_vnc_resolution:
     required: true
   version:
@@ -15,31 +28,15 @@ attributes:
       - [ "18.2",   "ansys/18.2"   ]
   bc_account:
     label: "Account"
-    help: "If left blank default account will be used"
+    value: "notchpeak-shared-short"
   bc_queue:
     label: "Partition"
-    value: "scrubpeak"
-    help: "If left blank default partition will be used"
-  node_type:
-    widget: select
-    label: "Node type"
-    help: |
-      - **any** - Chooses anyone of the available Lonepeak nodes.
-        This reduces the wait time as you have no requirements.
-      - **8 core node** - Chooses 8 core Lonepeak nodes.
-      - **12 core node** - Chooses 12 core Lonepeak nodes.
-      - **20 core node** - Chooses 20 core Lonepeak nodes.
-    options:
-      - ["any node", "any"]
-      - ["8 core node", "c8"]
-      - ["12 core node", "c12"]
-      - ["20 core node", "c20"]
+    value: "notchpeak-shared-short"
 form:
   - version
   - bc_num_slots
   - bc_num_hours
   - bc_account
   - bc_queue
-  - node_type
   - bc_vnc_resolution
   - bc_email_on_started
