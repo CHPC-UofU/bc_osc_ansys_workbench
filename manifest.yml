@@ -1,11 +1,12 @@
 ---
-name: ANSYS Workbench on notchpeak shared
+name: ANSYS Workbench on notchpeak
 category: Interactive Apps
 subcategory: GUIs
 role: batch_connect
 description: |
   This app will launch an [ANSYS Workbench] within a [Turbo VNC] server on the
-  [notchpeak cluster].
+  [Notchpeak cluster].
 
   [ANSYS Workbench]: https://www.ansys.com/
   [Turbo VNC]: https://www.turbovnc.org/
+  [Notchpeak cluster]: https://www.chpc.utah.edu/documentation/guides/notchpeak.php
