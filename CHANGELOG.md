@@ -5,6 +5,44 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+<<<<<<< HEAD
+=======
+## [0.8.1] - 2019-02-21
+### Fixed
+- Fixed front end to allow PPN control to remain blank
+
+## [0.8.0] - 2019-01-31
+### Added
+- Added controls for using external license servers
+
+## [0.7.4] - 2018-01-08
+### Fixed
+- Fixed bug caused by attempting to assign to an attr_reader
+
+## [0.7.3] - 2019-01-24
+### Fixed
+- Fixed bug when entering a blank PPN request
+
+## [0.7.2] - 2019-01-09
+### Changed
+- Requesting a hugemem node always requests the entire node
+
+## [0.7.1] - 2019-01-08
+### Fixed
+- Fixed bug when entering a blank PPN request
+
+## [0.7.0] - 2019-01-08
+### Added 
+- Added a control to select number of cores
+
+### Changed
+- Fixed bug where hugemem nodes did not get access to all 48 processors
+
+## [0.6.0] - 2018-07-26
+### Changed
+- Fixed bug where ANSYS parallel licenses were not properly reserved at submission time.
+    [#15](https://github.com/OSC/bc_osc_ansys_workbench/issues/15)
+>>>>>>> 0b22f33afb5ec98598a4f6d812b75660dd45a892
 
 ## [0.5.0] - 2018-03-27
 ### Changed
@@ -69,7 +107,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release!
 
+<<<<<<< HEAD
 [Unreleased]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.5.0...HEAD
+=======
+[Unreleased]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.8.1...HEAD
+[0.8.1]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.8.0...v0.8.1`
+[0.8.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.7.4...v0.8.0
+[0.7.4]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.7.3...v0.7.4
+[0.7.3]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.7.2...v0.7.3
+[0.7.2]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.7.1...v0.7.2
+[0.7.1]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.7.0...v0.7.1
+[0.7.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.5.0...v0.6.0
+>>>>>>> 0b22f33afb5ec98598a4f6d812b75660dd45a892
 [0.5.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/OSC/bc_osc_ansys_workbench/compare/v0.2.0...v0.3.0
